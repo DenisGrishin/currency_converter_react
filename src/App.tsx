@@ -1,35 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import styled from 'styled-components';
+import './App.css';
+import { Flex } from './style/style';
+import BlockConvert from './components/ui/BlockConvert';
+import { useState } from 'react';
+// https://v6.exchangerate-api.com/v6/daff82882d3f7cf4d019916b/latest/
 
-function App() {
-  const [count, setCount] = useState(0)
+const StyledBlockConvert = styled(BlockConvert)`
+  flex: 0 1 50%;
+`;
+const StyledFlexGap = styled(Flex)`
+  column-gap: 30px;
+`;
+
+export type objBtnConvertType = {
+  isActive: string;
+  setIsActive: (actvBtn: string) => void;
+};
+
+const App: React.FC = () => {
+  const [isCurrentActive, setIsCurrentActive] = useState<string>('RU');
+  const [isEditActive, setIsEditActive] = useState<string>('RU');
+
+  const currentDataConvert = {
+    isActive: isCurrentActive,
+    setIsActive: (actvBtn: string) => setIsCurrentActive(actvBtn),
+  };
+  const editDataConvert = {
+    isActive: isCurrentActive,
+    setIsActive: (actvBtn: string) => setIsEditActive(actvBtn),
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <StyledFlexGap>
+      <StyledBlockConvert
+        objBtnConvert={currentDataConvert}
+        isActive={isCurrentActive}
+      />
+      <StyledBlockConvert
+        objBtnConvert={editDataConvert}
+        isActive={isEditActive}
+      />
+    </StyledFlexGap>
+  );
+};
 
-export default App
+export default App;
